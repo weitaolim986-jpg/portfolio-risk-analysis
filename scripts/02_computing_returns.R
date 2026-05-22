@@ -13,5 +13,3 @@ head(returns)
 summary(returns)
 
 
-
-#e9fwepfjwgjrgrjgrejg9rejg9rejg9rejgr9egre9guregu
