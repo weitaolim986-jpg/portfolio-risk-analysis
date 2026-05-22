@@ -12,4 +12,4 @@ returns <- na.omit(returns)
 head(returns)
 summary(returns)
 
-
+write.csv(data.frame(Date = index(returns), coredata(returns)), "data/daily_returns.csv", row.names = FALSE)
