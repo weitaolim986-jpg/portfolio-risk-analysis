@@ -1,0 +1,118 @@
+# 05_risk_measures.R
+# Calculate historical Value at Risk and Expected Shortfall.
+
+library(xts)
+library(ggplot2)
+
+dir.create("figures", showWarnings = FALSE)
+
+portfolio_return_file <- "data/portfolio_returns.csv"
+
+if (!file.exists(portfolio_return_file)) {
+  stop(
+    "Cannot find data/portfolio_returns.csv. Run Script 04 first."
+  )
+}
+
+portfolio_returns_df <- read.csv(portfolio_return_file)
+
+portfolio_returns_xts <- xts(
+  portfolio_returns_df[, -1],
+  order.by = as.Date(portfolio_returns_df$Date)
+)
+
+portfolio_value <- 10000
+confidence_level <- 0.95
+
+calculate_historical_var <- function(r, confidence, value) {
+  r <- as.numeric(r)
+  return_quantile <- quantile(
+    r,
+    probs = 1 - confidence,
+    names = FALSE
+  )
+  -return_quantile * value
+}
+
+calculate_expected_shortfall <- function(r, confidence, value) {
+  r <- as.numeric(r)
+  cutoff <- quantile(
+    r,
+    probs = 1 - confidence,
+    names = FALSE
+  )
+  worst_returns <- r[r <= cutoff]
+  -mean(worst_returns) * value
+}
+
+var_results <- apply(
+  portfolio_returns_xts,
+  2,
+  calculate_historical_var,
+  confidence = confidence_level,
+  value = portfolio_value
+)
+
+es_results <- apply(
+  portfolio_returns_xts,
+  2,
+  calculate_expected_shortfall,
+  confidence = confidence_level,
+  value = portfolio_value
+)
+
+risk_table <- data.frame(
+  Portfolio = colnames(portfolio_returns_xts),
+  VaR_95_Dollars = round(as.numeric(var_results), 2),
+  Expected_Shortfall_95_Dollars = round(as.numeric(es_results), 2)
+)
+
+print(risk_table)
+
+write.csv(
+  risk_table,
+  "data/portfolio_var_expected_shortfall.csv",
+  row.names = FALSE
+)
+
+risk_plot_data <- data.frame(
+  Portfolio = rep(risk_table$Portfolio, times = 2),
+  Risk_Measure = rep(
+    c("95% VaR", "95% Expected Shortfall"),
+    each = nrow(risk_table)
+  ),
+  Dollar_Loss = c(
+    risk_table$VaR_95_Dollars,
+    risk_table$Expected_Shortfall_95_Dollars
+  )
+)
+
+risk_plot <- ggplot(
+  risk_plot_data,
+  aes(
+    x = Portfolio,
+    y = Dollar_Loss,
+    fill = Risk_Measure
+  )
+) +
+  geom_col(
+    position = "dodge"
+  ) +
+  labs(
+    title = "One-Day 95% VaR and Expected Shortfall",
+    subtitle = "Dollar losses based on a $10,000 portfolio",
+    x = "Portfolio",
+    y = "Estimated Dollar Loss",
+    fill = "Risk Measure"
+  ) +
+  theme_minimal()
+
+ggsave(
+  filename = "figures/05_var_expected_shortfall.png",
+  plot = risk_plot,
+  width = 8,
+  height = 5,
+  dpi = 200
+)
+
+message("Risk measures complete.")
