@@ -1,0 +1,33 @@
+Project Overview:
+This project examines whether combining equities, gold, and Treasury bonds reduces portfolio risk using historical adjusted daily price data from 2015 to 2025.
+
+Research Question:
+Does adding bonds and gold to an equity-heavy portfolio reduce volatility, drawdowns, Value at Risk and Expected Shortfall during normal and stressed market periods?
+
+Assets Analysed:
+SPY: US equity market exposure 
+IEF: Intermediate-term US Treasury bond exposure
+GLD: Gold exposure 
+
+Methods:
+- Daily return analysis
+- Correlation analysis
+- Portfolio construction
+- Annualised return and volatility
+- Maximum drawdown
+- Historical Value at Risk
+- Expected Shortfall
+- Historical stress testing
+
+Tools Used:
+- R
+- quantmod
+- xts
+- ggplot2
+- PerformanceAnalytics
+
+Key Findings:
+
+
+Limitations:
+
