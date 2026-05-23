@@ -27,7 +27,33 @@ Tools Used:
 - PerformanceAnalytics
 
 Key Findings:
+- Individual asset behaviour: 
+- SPY has the highest daily return and annualized return, but at the expense of the highest daily and thus annualized volatility. 
+- Gold ranks second for all four metrics while IEF is the last, showing lower returns but higher stability.
+- Generally, there isn't a strong correlation between any two of the three assets, making them a compatible choice for portfolio diversification. Investors would not expect to see chain effects from one asset to another, which helps reduce the losses they may face from an asset drawdown.
 
+- Portfolio return:
+- the equity-heavy portfolio has the highest annualized return compared to other portfolios. This is possibly because equities, which bring higher returns according to the analysis above, occupy 80% of this portfolio.
+
+- Ordinary risk:
+- The equity-heavy portfolio, while being the most lucrative, has the highest volatility, possibly caused by the volatile nature of equities. 
+- As the proportion of equities decreases, all three metrics demonstrate a downward trend, showing the "high risk high return" nature of equities and how bonds and golds reduce the volatility and drawdown from equities.
+- Thus, the defensive portfolio, which is the most diversified one among the three, has the lowest volatility, showing the noticeable effect of diversification on reducing risk exposure and fluctuations of a portfolio.
+
+- Severe historical losses (downside risk):
+- In terms of drawdown, VaR and expected shortfall, metrics used to measure how much a portfolio holder could loss, the equity-heavy portfolio expectedly shows the worst performance. This means, investors who invest in this portfolio could loss much more than those investing in other two when markets crash (while sweeping more profits under good market conditions).
+- Therefore, it has the highest downside risk.
+
+- Stress-period performance:
+- However, during crisis periods such as Covid-19 and interest rate hike, the three portfolios show similar performance in drawdowns regardless of the degree of diversification under both extreme scenarios.
+- In terms of returns, the defensive portfolio shows a stronger reduction effect during Covid-19 while a weaker one during the 2022 interest rate hike.
+
+- Overall conclusion: Adding bonds and gold reduced risks during normal periods, but not quite so during extreme stress periods. Furthermore, a higher return comes with wilder fluctuations and thus larger losses.
 
 Limitations:
-
+1. This analysis uses historical data, and thus is not able to predict how the assets and the resulting portfolios will behave in future crises as correlations, returns and risk levels can change over time.
+2. The selected ETFs are proxies of each asset classes not representative of all possible types of the asset.
+3. The portfolios are all denominated in USD, not accounting for exchange rate movements between USD and the investor's home currency.
+4. The fixed portfolio weights assume frequent rebalancing, absence of which might result in different risks and returns
+5. The above calculations exclude transaction, management and other associated costs, which will see a significant increase if portfolios are frequently rebalanced. Therefore, the report might overestimate the returns of each portfolio.
+6. VaR and Expected Shortfall are calculated based on historical returns, which rely on losses that have actually occurred. Therefore, if a future crisis is more severe, which might not be captured by the two metrics.
