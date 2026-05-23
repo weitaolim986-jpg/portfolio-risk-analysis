@@ -43,5 +43,5 @@ any(is.na(prices))
 #there is no empty data
 
 write.csv(data.frame(Date = index(prices), coredata(prices)),
-          "/Users/limweitao/Downloads/portfolio risk project/adjusted_prices.csv",
+          "data/adjusted_prices.csv",
           row.names = FALSE)
