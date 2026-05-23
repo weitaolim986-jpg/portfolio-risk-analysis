@@ -1,5 +1,8 @@
 library(ggplot2)
+library(xts)
 
+returns = read.csv("data/daily_returns.csv")
+returns_xts = xts(returns[,-1],order.by = as.Date(returns$Date))
 
 normalised_prices <- sweep(
   prices_xts,
@@ -27,8 +30,6 @@ return_ief = returns$IEF
 return_gld = returns$GLD
 #how $100 will grow if invested in each asset 
 
-returns = read.csv("data/daily_returns.csv")
-returns_xts = xts(returns[,-1],order.by = as.Date(returns$Date))
 
 png("figures/daily_returns_spy.png", width = 1000, height = 600)
 plot(returns_xts$SPY, main = "Daily Returns of SPY", ylab = "Daily Return", xlab = "Date")

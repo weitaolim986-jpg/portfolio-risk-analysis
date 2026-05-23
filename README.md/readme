@@ -18,6 +18,8 @@ Methods:
 - Historical Value at Risk
 - Expected Shortfall
 - Historical stress testing
+- Comparison of historical Value at Risk and normal parametric Value at Risk 
+- Exploratory assessment of the normal-return assumption using return distributions and QQ plots
 
 Tools Used:
 - R
@@ -47,6 +49,13 @@ Key Findings:
 - Stress-period performance:
 - However, during crisis periods such as Covid-19 and interest rate hike, the three portfolios show similar performance in drawdowns regardless of the degree of diversification under both extreme scenarios.
 - In terms of returns, the defensive portfolio shows a stronger reduction effect during Covid-19 while a weaker one during the 2022 interest rate hike.
+
+- Historical VaR vs Parametric VaR:
+- Both VaRs rank the three portfolios the same way, so the equity-heavy portfolio is the highest in both VaRs, suggesting a greater estimated downside risk under both methods.
+- Parametric VaR are higher at 95% confidence level, but lower at 99% confidence level. 
+- As confidence level increases, the difference between the two also increases.
+- The past returns are not perfectly normally distributed, with longer tails on both sides.
+- Therefore, it is not ideal to rely on a single VaR method when assessing portfolio risk.
 
 - Overall conclusion: Adding bonds and gold reduced risks during normal periods, but not quite so during extreme stress periods. Furthermore, a higher return comes with wilder fluctuations and thus larger losses.
 

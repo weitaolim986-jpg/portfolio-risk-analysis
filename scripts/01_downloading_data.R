@@ -45,3 +45,4 @@ any(is.na(prices))
 write.csv(data.frame(Date = index(prices), coredata(prices)),
           "data/adjusted_prices.csv",
           row.names = FALSE)
+
