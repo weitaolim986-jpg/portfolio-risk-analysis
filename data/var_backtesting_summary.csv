@@ -1,0 +1,13 @@
+"Portfolio","Confidence_Level","Method","Number_of_Exceedances","Number_of_Test_Days","Exceedance_Rate_Percent","Expected_Exceedance_Rate_Percent"
+"Balanced","95%","Historical VaR",128,2264,5.65,5
+"Balanced","95%","Parametric VaR",116,2264,5.12,5
+"Balanced","99%","Historical VaR",29,2264,1.28,1
+"Balanced","99%","Parametric VaR",49,2264,2.16,1
+"Defensive","95%","Historical VaR",127,2264,5.61,5
+"Defensive","95%","Parametric VaR",113,2264,4.99,5
+"Defensive","99%","Historical VaR",28,2264,1.24,1
+"Defensive","99%","Parametric VaR",39,2264,1.72,1
+"Equity_heavy","95%","Historical VaR",120,2264,5.3,5
+"Equity_heavy","95%","Parametric VaR",114,2264,5.04,5
+"Equity_heavy","99%","Historical VaR",34,2264,1.5,1
+"Equity_heavy","99%","Parametric VaR",64,2264,2.83,1
