@@ -1,0 +1,7 @@
+"Portfolio","Confidence_Level","Method","Number_of_Exceedances","Number_of_Test_Days","Exceedance_Rate_Percent","Expected_Exceedance_Rate_Percent"
+"Balanced","95%","Student-t GARCH VaR",141,2264,6.23,5
+"Balanced","99%","Student-t GARCH VaR",35,2264,1.55,1
+"Defensive","95%","Student-t GARCH VaR",128,2264,5.65,5
+"Defensive","99%","Student-t GARCH VaR",33,2264,1.46,1
+"Equity_heavy","95%","Student-t GARCH VaR",153,2264,6.76,5
+"Equity_heavy","99%","Student-t GARCH VaR",37,2264,1.63,1

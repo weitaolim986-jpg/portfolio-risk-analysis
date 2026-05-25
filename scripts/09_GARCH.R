@@ -8,7 +8,7 @@ equity_returns_pct <- portfolio_returns_xts[, portfolio_name] * 100
 head(equity_returns_pct)
 summary(equity_returns_pct)
 
-garch_spec <- ugarchspec(
+garch_spec_normal <- ugarchspec(
   variance.model = list(
     model = "sGARCH",
     garchOrder = c(1, 1)
@@ -21,7 +21,7 @@ garch_spec <- ugarchspec(
 )
 
 garch_fit <- ugarchfit(
-  spec = garch_spec,
+  spec = garch_spec_normal,
   data = equity_returns_pct,
   solver = "hybrid"
 )
@@ -86,3 +86,5 @@ ggsave(
   height = 6,
   dpi = 200
 )
+
+

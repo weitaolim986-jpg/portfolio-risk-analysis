@@ -29,6 +29,9 @@ Methods:
 - Comparison of historical Value at Risk and normal parametric Value at Risk 
 - Exploratory assessment of the normal-return assumption using return distributions and QQ plots
 - Rolling VaR Backtesting
+- GARCH(1,1) conditional volatility modelling
+- GARCH-based one-day ahead VaR forecasting (following normal and Student's T distribution)
+- Backtesting comparison of Historical VaR, Normal Parametric VaR, normally distributed GARCH VaR, and Student's T-Distributed GARCH VaR
 
 Tools Used:
 - R
@@ -70,7 +73,20 @@ Key Findings:
 - Both VaR methods exceed the expected exceedance rates across both confidence levels for almost all portfolios. 
 - However, Parametric VaR at 99% and Historical VaR at 95% perform particularly worse than the other two combinations. But the estimates from the other two combinations are reasonably close to the expected rates.
 
-- Overall conclusion: Adding bonds and gold reduced risks during normal periods, but not quite so during extreme stress periods. Furthermore, a higher return comes with wilder fluctuations and thus larger losses.
+- GARCH(1,1) conditional volatility modelling (for equity-heavy portfolio)
+- GARCH considers past volatilities as a reference in computing latest volatility, thus the estimated volatility follows a similar trend as the observed volatility in our data.
+- Therefore, if returns fluctuated a lot during a specific period, GARCH expects the volatility in near future is also high and view it as riskier, as opposed to other VaR method which treat all periods as equally risky.
+
+- GARCH-based one-day ahead VaR forecasting
+- Since volatility changes as market conditions change under different periods, the VaR estimates from GARCH also adapt to different market risks and fluctuations. It incorporates estimated mean returns and volatilities.
+
+- Backtesting comparison of all four VaR models
+- at 99% confidence level, all models but Student-T GARCH see a more noticeable deviation of exceedance rates from the expected rates.
+- Parametric and GARCH perform particularly worse at this confidence level. Student-T GARCH performs relatively bad at 95% confidence level.
+
+- Overall conclusion: 
+- Adding bonds and gold reduced risks during normal periods, but not quite so during extreme stress periods. Furthermore, a higher return comes with wilder fluctuations and thus larger losses.
+- Historical VaR appeared to be the model with the most stable performance across portfolios and confidence levels.
 
 Limitations:
 1. This analysis uses historical data, and thus is not able to predict how the assets and the resulting portfolios will behave in future crises as correlations, returns and risk levels can change over time.

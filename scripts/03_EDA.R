@@ -31,15 +31,15 @@ return_gld = returns$GLD
 #how $100 will grow if invested in each asset 
 
 
-png("figures/daily_returns_spy.png", width = 1000, height = 600)
+png("figures/01_daily_returns_spy.png", width = 1000, height = 600)
 plot(returns_xts$SPY, main = "Daily Returns of SPY", ylab = "Daily Return", xlab = "Date")
 dev.off()
 
-png("figures/daily_returns_ief.png", width = 1000, height = 600)
+png("figures/02_daily_returns_ief.png", width = 1000, height = 600)
 plot(returns_xts$IEF, main = "Daily Returns of IEF", ylab = "Daily Return", xlab = "Date")
 dev.off()
 
-png("figures/daily_returns_gld.png", width = 1000, height = 600)
+png("figures/03_daily_returns_gld.png", width = 1000, height = 600)
 plot(returns_xts$GLD, main = "Daily Returns of GLD", ylab = "Daily Return", xlab = "Date")
 dev.off()
 
@@ -69,5 +69,5 @@ ggplot(cor_df, aes(x = Var1, y = Var2, fill = Freq)) +
        x = "Asset", y = "Asset", fill = "Correlation") + 
   theme_minimal()
 
-ggsave("figures/correlation_heatmap.png", width = 7, height = 5)
+ggsave("figures/04_correlation_heatmap.png", width = 7, height = 5)
 

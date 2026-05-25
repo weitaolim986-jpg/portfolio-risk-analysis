@@ -20,7 +20,7 @@ write.csv(data.frame(Date = index(portfolio_returns),coredata(portfolio_returns)
 initial_investment = 10000
 portfolio_values = initial_investment * cumprod(1 + portfolio_returns)
 
-png("figures/growth_of_10000_by_portfolio.png", width = 1000, height = 600)
+png("figures/05_growth_of_10000_by_portfolio.png", width = 1000, height = 600)
 matplot(index(portfolio_values),coredata(portfolio_values),
         type = 'l',lty = 1, col=c('black','red','green'),
         xlab = "Date", ylab = "Portfolio Value in USD",

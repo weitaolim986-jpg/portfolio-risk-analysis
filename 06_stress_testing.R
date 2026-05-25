@@ -50,5 +50,5 @@ library(ggplot2)
 
 ggplot(risk_plot_data, aes(x = Portfolio, y = Dollar_Loss, fill = Risk_Measure)) + geom_bar(stat = "identity", position = "dodge") + labs(title = "One-Day 95% VaR and Expected Shortfall", x = "Portfolio", y = "Loss on a USD 10,000 Portfolio", fill = "Risk Measure") + theme_minimal()
 
-ggsave('figures/var_expected_shortfall.png',width = 8, height = 5)
+ggsave('figures/06_var_expected_shortfall.png',width = 8, height = 5)
 
