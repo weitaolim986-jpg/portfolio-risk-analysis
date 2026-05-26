@@ -5,7 +5,7 @@
 ## Project Overview
 This project examines whether combining equities, Treasury bonds and gold reduces portfolio risk using historical adjusted daily price data from 2015 to 2025.
 
-Three fixed-weight portfolios with different levels of equity exposure are evaluated using compounded annualised return, annualised volatility, maximum drawdown, Value at Risk (VaR), Expected Shortfall and historical stress testing.
+Three fixed-weight portfolios with different levels of equity exposure are evaluated using compounded annualized return, annualised volatility, maximum drawdown, Value at Risk (VaR), Expected Shortfall and historical stress testing.
 
 To assess how risk-model assumptions affect downside-risk estimation, the project compares Historical VaR, Normal Parametric VaR, Normal GARCH VaR and Student-t GARCH VaR. Rolling one-day-ahead backtesting is then used to evaluate how closely each model's exceedance rates are to the theoretically expected rates.
 
@@ -36,7 +36,7 @@ To assess how risk-model assumptions affect downside-risk estimation, the projec
 - Daily return analysis
 - Correlation analysis
 - Portfolio construction
-- Annualised return and volatility
+- Annualized return and volatility
 - Maximum drawdown
 - Historical Value at Risk
 - Expected Shortfall
@@ -45,8 +45,8 @@ To assess how risk-model assumptions affect downside-risk estimation, the projec
 - Exploratory assessment of the normal-return assumption using return distributions and QQ plots
 - Rolling VaR Backtesting
 - GARCH(1,1) conditional volatility modelling
-- GARCH-based one-day ahead VaR forecasting (following normal and Student's T distribution)
-- Backtesting comparison of Historical VaR, Normal Parametric VaR, normally distributed GARCH VaR, and Student's T-Distributed GARCH VaR
+- GARCH-based one-day-ahead VaR forecasting (following normal and Student-t distribution)
+- Backtesting comparison of Historical VaR, Normal Parametric VaR, Normal GARCH VaR, and Student-t GARCH VaR
 
 ## Tools Used
 - R
@@ -94,16 +94,17 @@ To assess how risk-model assumptions affect downside-risk estimation, the projec
 
 ### 5. Historical VaR versus Normal Parametric VaR
 - Both VaRs rank the three portfolios the same way, so the equity-heavy portfolio is the highest in both VaRs, suggesting a greater estimated downside risk under both methods.
-- Parametric VaR are higher at 95% confidence level, but lower at 99% confidence level. 
+- Normal Parametric VaR are higher at 95% confidence level, but lower at 99% confidence level. 
 - The difference between the two methods became larger when moving from the 95% to the 99% confidence level, suggesting that distributional assumptions matter more when estimating more extreme downside losses.
 - The past returns are not perfectly normally distributed, with longer tails on both sides.
 - These results motivate the subsequent use of GARCH-based VaR models, including a Student-t specification, to examine whether modelling time-varying volatility and heavier tails improves downside-risk forecasting.
 
-![Historical vs Parametric VaR](figures/08_historical_vs_parametric_var.png)
+![Historical vs Normal Parametric VaR](figures/08_historical_vs_parametric_var.png)
 
 ### 6. Rolling VaR Backtesting
-- Both VaR methods exceed the expected exceedance rates across both confidence levels for almost all portfolios. 
-- However, Parametric VaR at 99% and Historical VaR at 95% perform particularly worse than the other two combinations. But the estimates from the other two combinations are reasonably close to the expected rates.
+- Rolling one-day-ahead backtesting was first applied to Historical VaR and Normal Parametric VaR by comparing realised losses against predicted VaR thresholds.
+- At both confidence levels, exceedance rates were compared with their theoretical benchmarks of 5% for 95% VaR and 1% for 99% VaR.
+- The initial backtesting results motivated the later comparison with GARCH-based models, which explicitly model time-varying conditional volatility.
 
 ### 7. GARCH Conditional Volatility Modelling
 - The GARCH(1,1) model estimates time-varying conditional volatility using past squared return shocks and previously estimated conditional variance. The resulting volatility path is used to assess whether predicted market risk rose during turbulent periods. 
@@ -111,21 +112,24 @@ To assess how risk-model assumptions affect downside-risk estimation, the projec
 
 ![Conditional volatility calculated using GARCH (normal distribution)](figures/12_garch_equity_heavy_conditional_volatility.png)
 
-### 8. GARCH one-day ahead VaR forecasting
-- Since volatility changes as market conditions change under different periods, the VaR estimates from GARCH also adapt to different market risks and fluctuations. It incorporates estimated mean returns and volatilities.
+### 8. Normal GARCH one-day-ahead VaR forecasting
+- Because estimated conditional volatility changes over time, Normal GARCH VaR produces a dynamic one-day-ahead loss threshold that responds to changing market risk.
+- The detailed backtesting plot below illustrates how realised daily losses were compared with the predicted 99% Normal GARCH VaR threshold for the Equity-Heavy portfolio.
 
 ![Backtesting 99% GARCH (normal distribution) VaR for the Equity-Heavy Portfolio](figures/13_garch_99_var_backtesting.png)
 
 ### 9. Backtesting Comparison of Four VaR Models
-- At 99% confidence level, all models but Student-T GARCH see a more noticeable deviation of exceedance rates from the expected rates across the observed portfolios. Parametric and Normal GARCH perform particularly worse at this confidence level.
-- At 95% however, Student-t GARCH was less closely calibrated than some other simpler alternatives.
+- At 99% confidence level, all models but Student-t GARCH VaR see a more noticeable deviation of exceedance rates from the expected rates across the observed portfolios. Normal Parametric and Normal GARCH VaR perform particularly worse at this confidence level.
+- At 95% however, Student-t GARCH VaR was less closely calibrated than some other simpler alternatives.
 - Overall, increasing model complexity did not uniformly improve calibration across all portfolios and confidence levels.
 
 ![Backtesting of all four models and portfolios at 95% and 99% confidence levels](figures/20_var_model_backtesting_comparison_all_portfolios_with_std.png)
 
 ## Overall conclusion
-- Adding bonds and gold reduced risks during normal periods, but not quite so during extreme stress periods. Furthermore, a higher return comes with wilder fluctuations and thus larger losses.
-- Across the observed portfolio-confidence combinations, historical VaR produced exceedance rates that were generally the most consistently close to the expected benchmark, while Student-t GARCH appeared particularly competitive at the 99% confidence level. These results suggest that increasing model complexity did not uniformly improve calibration across all settings.
+- Based on the observed historical sample, allocating greater weight to Treasury bonds and gold reduced portfolio volatility, drawdown magnitude and downside-risk estimates, although this came at the cost of lower long-term return.
+- Diversification also reduced losses during both selected stress periods, but its protective effect was substantially stronger during the COVID-19 sell-off than during the 2022 inflation and rising-interest-rate environment.
+- In the VaR backtesting analysis, model performance varied across confidence levels and portfolios. Historical VaR appeared more consistently calibrated across the observed combinations, while Normal Parametric VaR was particularly competitive at 95% confidence level.
+- Overall, the results suggest that both portfolio composition and model assumptions matter in risk management: diversification can reduce realised downside exposure, while increasingly sophisticated risk models do not automatically produce uniformly better forecasts.
 
 ## Limitations
 1. This analysis uses historical data, and thus is not able to predict how the assets and the resulting portfolios will behave in future crises as correlations, returns and risk levels can change over time.
@@ -137,5 +141,12 @@ To assess how risk-model assumptions affect downside-risk estimation, the projec
 7. The selected historical stress periods do not represent every possible future crisis, thus the results of the stress testing may not accurately predict how the portfolios will perform under future crises.
 8. The backtesting results may depend on selected rolling-window length, confidence levels and performance evaluation methods, not a comprehensive judgement of the ability of each VaR model.
 9. The standard GARCH(1,1) specification assumes that positive and negative shocks of the same magnitude affect future volatility symmetrically, which may not fully reflect equity-market behaviour.
-10. Normal GARCH VaR assumes normally distributed standardised shocks, while Student-t GARCH represents only one possible heavy-tailed alternative. Model conclusions may differ under other distributional or asymmetric-volatility specifications.
+10. Normal GARCH VaR assumes normally distributed standardised shocks, while Student-t GARCH VaR represents only one possible heavy-tailed alternative. Model conclusions may differ under other distributional or asymmetric-volatility specifications.
 
+## Reproducing the Analysis
+
+Run the R scripts in numerical order after opening the RStudio Project file. The scripts produce the processed datasets, summary tables and figures used in this README.
+
+## Disclaimer
+
+This project is conducted for educational and portfolio-development purposes only. It does not constitute investment advice.
