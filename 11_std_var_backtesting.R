@@ -120,6 +120,7 @@ write.csv(
 
 existing_backtest_file <- "data/var_backtesting_predictions.csv"
 
+
 if (file.exists(existing_backtest_file)) {
   existing_backtest_results <- read.csv(
     existing_backtest_file
@@ -129,6 +130,7 @@ if (file.exists(existing_backtest_file)) {
     existing_backtest_results$Exceedance
   )
   
+  existing_backtest_results$Date = as.Date(existing_backtest_results$Date)
   required_columns <- c(
     "Date",
     "Portfolio",
@@ -293,7 +295,7 @@ print(garch_99_std_all_portfolios_plot)
 
 ggsave(
   filename = "figures/18_garch_99_std_var_backtesting_all_portfolios.png",
-  plot = garch_99_all_portfolios_plot,
+  plot = garch_99_std_all_portfolios_plot,
   width = 11,
   height = 10,
   dpi = 200
@@ -360,11 +362,11 @@ garch_all_combinations_plot_std <- ggplot(
     )
   )
 
-print(garch_all_combinations_plot)
+print(garch_all_combinations_plot_std)
 
 ggsave(
   filename = "figures/19_garch_var_std_backtesting_all_combinations.png",
-  plot = garch_all_combinations_plot,
+  plot = garch_all_combinations_plot_std,
   width = 14,
   height = 8,
   dpi = 220

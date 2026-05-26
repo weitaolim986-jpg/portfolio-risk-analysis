@@ -12,7 +12,7 @@ calculate_total_return = function(r){
 }
 
 calculate_max_drawdown = function(r){
-  wealth = cumprod(r)
+  wealth = cumprod(c(1,1+r))
   running_peak = cummax(wealth)
   drawdown = wealth/running_peak-1
   min(drawdown)

@@ -1,23 +1,38 @@
-Project Overview:
-This project examines whether combining equities, gold, and Treasury bonds reduces portfolio risk using historical adjusted daily price data from 2015 to 2025. It also compares two different methods of calculating Value at Risk (VaR) and assess their performance in estimating the downside risks and losses in past observations.
+# Portfolio Risk Measurement and VaR Backtesting in R
+## Does Diversification Protect Investors During Market Stress?
 
-Research Question:
+
+## Project Overview
+This project examines whether combining equities, Treasury bonds and gold reduces portfolio risk using historical adjusted daily price data from 2015 to 2025.
+
+Three fixed-weight portfolios with different levels of equity exposure are evaluated using compounded annualised return, annualised volatility, maximum drawdown, Value at Risk (VaR), Expected Shortfall and historical stress testing.
+
+To assess how risk-model assumptions affect downside-risk estimation, the project compares Historical VaR, Normal Parametric VaR, Normal GARCH VaR and Student-t GARCH VaR. Rolling one-day-ahead backtesting is then used to evaluate how closely each model's exceedance rates are to the theoretically expected rates.
+
+## Research Questions
 1. Does adding Treasury bond and gold exposure to an equity-heavy portfolio reduce volatility, drawdowns and tail losses?
 
-2. How does Historical VaR differ from Parametric VaR in terms of evaluation methods and results?
+2. How do different portfolio allocations affect the trade-off between long-term return and downside protection?
 
-3. How accurately do Historical VaR and Normal Parametric VaR measure and forecast downside risk across portfolios with different asset allocations?
+3. How do Historical VaR, Normal Parametric VaR, Normal GARCH VaR and Student-t GARCH VaR differ in their estimates of downside risk?
 
-4. How reliable are the two VaR models in forecasting downside risk in backtesting?
+4. How reliably do these VaR models forecast one-day-ahead portfolio losses in rolling backtesting?
 
-5. How does portfolio protection through diversification differ across selected market stress periods?
+5. Does diversification provide similar protection across different historical stress periods?
 
-Assets Analysed:
-SPY: US equity market exposure 
-IEF: Intermediate-term US Treasury bond exposure
-GLD: Gold exposure 
+## Assets Analysed
+- **SPY:** US equity market exposure
+- **IEF:** Intermediate-term US Treasury bond exposure
+- **GLD:** Gold exposure
 
-Methods:
+## Portfolios Analysed
+| Portfolio | SPY | IEF | GLD |
+|---|---:|---:|---:|
+| Equity-Heavy | 80% | 10% | 10% |
+| Balanced | 50% | 25% | 25% |
+| Defensive | 30% | 40% | 30% |
+
+## Methods
 - Daily return analysis
 - Correlation analysis
 - Portfolio construction
@@ -33,68 +48,94 @@ Methods:
 - GARCH-based one-day ahead VaR forecasting (following normal and Student's T distribution)
 - Backtesting comparison of Historical VaR, Normal Parametric VaR, normally distributed GARCH VaR, and Student's T-Distributed GARCH VaR
 
-Tools Used:
+## Tools Used
 - R
 - quantmod
 - xts
 - ggplot2
 - PerformanceAnalytics
+- rugarch
 
-Key Findings:
-- Individual asset behaviour: 
+## Results and Key Findings
+### 1. Individual Asset Behaviour and Diversification Potential
 - SPY has the highest daily return and annualized return, but at the expense of the highest daily and thus annualized volatility. 
-- Gold ranks second for all four metrics while IEF is the last, showing lower returns but higher stability.
-- Generally, there isn't a strong correlation between any two of the three assets, making them a compatible choice for portfolio diversification. Investors would not expect to see chain effects from one asset to another, which helps reduce the losses they may face from an asset drawdown.
 
-- Portfolio return:
+![Growth of $100 by asset](figures/growth_of_$100_by_asset.png)
+- Gold ranked between SPY and IEF for all four metrics while IEF is the last, showing lower returns but higher stability.
+- Generally, there isn't a strong correlation (<= 0.35) between any two of the three assets, making them a compatible choice for portfolio diversification because the assets did not move together strongly over the observed period.
+
+![Correlation among the three assets](figures/04_correlation_heatmap.png)
+
+### 2. Portfolio Risk-Return Comparison
 - the equity-heavy portfolio has the highest annualized return compared to other portfolios. This is possibly because equities, which bring higher returns according to the analysis above, occupy 80% of this portfolio.
 
-- Ordinary risk:
+![Growth of $10,000 Across Portfolios](figures/05_growth_of_10000_by_portfolio.png)
+
 - The equity-heavy portfolio, while being the most lucrative, has the highest volatility, possibly caused by the volatile nature of equities. 
-- As the proportion of equities decreases, all three metrics demonstrate a downward trend, showing the "high risk high return" nature of equities and how bonds and golds reduce the volatility and drawdown from equities.
-- Thus, the defensive portfolio, which is the most diversified one among the three, has the lowest volatility, showing the noticeable effect of diversification on reducing risk exposure and fluctuations of a portfolio.
+- As the proportion of equities decreases, all three metrics, namely annualized compounded return, annualized volatility, and maximum drawdown, demonstrate a downward trend.
+- Thus, lower equity exposure was associated with lower return, volatility and drawdown magnitude, highlighting the historical risk-return trade-off across the three portfolios. 
 
-- Severe historical losses (downside risk):
-- In terms of drawdown, VaR and expected shortfall, metrics used to measure how much a portfolio holder could loss, the equity-heavy portfolio expectedly shows the worst performance. This means, investors who invest in this portfolio could loss much more than those investing in other two when markets crash (while sweeping more profits under good market conditions).
-- Therefore, it has the highest downside risk.
+### 3. Downside Risk:VaR and Expected Shortfall
+- In terms of VaR and expected shortfall, metrics used to assess the severity of potential or historically observed downside losses, the equity-heavy portfolio expectedly shows the worst performance. This means, investors who invest in this portfolio could suffer larger losses than those investing in other two.
+- The Balanced and Defensive portfolios produced lower tail-risk estimates, suggesting that allocating more weight to bonds and gold reduced observed downside risk.
+- Expected Shortfall complements VaR by showing the average severity of losses beyond the VaR threshold rather than only identifying the threshold itself.
 
-- Stress-period performance:
-- However, during crisis periods such as Covid-19 and interest rate hike, the three portfolios show similar performance in drawdowns regardless of the degree of diversification under both extreme scenarios.
-- In terms of returns, the defensive portfolio shows a stronger reduction effect during Covid-19 while a weaker one during the 2022 interest rate hike.
+![VaR and Expected Shortfall for the three portfolios](figures/06_var_expected_shortfall.png)
 
-- Historical VaR vs Parametric VaR:
+### 4. Historical Stress Testing
+- During COVID-19 sell off in 2020 and interest rate hike in 2022, the equity-heavy portfolio suffered the largest losses and deepest drawdowns compared to the other two.
+- Reducing equity exposure was associated with smaller losses during both periods, although the protection provided by the Defensive portfolio was much stronger during the COVID-19 sell-off than during the 2022 inflation and rising-interest-rate environment.
+
+| Portfolio | COVID-19 Return | COVID-19 Maximum Drawdown | 2022 Return | 2022 Maximum Drawdown |
+|---|---:|---:|---:|---:|
+| Equity-Heavy | -27.10% | -27.42% | -15.84% | -21.78% |
+| Balanced | -16.97% | -17.38% | -12.61% | -18.39% |
+| Defensive | -9.34% | -11.08% | -11.35% | -16.91% |
+
+### 5. Historical VaR versus Normal Parametric VaR
 - Both VaRs rank the three portfolios the same way, so the equity-heavy portfolio is the highest in both VaRs, suggesting a greater estimated downside risk under both methods.
 - Parametric VaR are higher at 95% confidence level, but lower at 99% confidence level. 
-- As confidence level increases, the difference between the two also increases.
+- The difference between the two methods became larger when moving from the 95% to the 99% confidence level, suggesting that distributional assumptions matter more when estimating more extreme downside losses.
 - The past returns are not perfectly normally distributed, with longer tails on both sides.
-- Therefore, it is not ideal to rely on a single VaR method when assessing portfolio risk.
+- These results motivate the subsequent use of GARCH-based VaR models, including a Student-t specification, to examine whether modelling time-varying volatility and heavier tails improves downside-risk forecasting.
 
-- Rolling VaR Backtesting:
+![Historical vs Parametric VaR](figures/08_historical_vs_parametric_var.png)
+
+### 6. Rolling VaR Backtesting
 - Both VaR methods exceed the expected exceedance rates across both confidence levels for almost all portfolios. 
 - However, Parametric VaR at 99% and Historical VaR at 95% perform particularly worse than the other two combinations. But the estimates from the other two combinations are reasonably close to the expected rates.
 
-- GARCH(1,1) conditional volatility modelling (for equity-heavy portfolio)
-- GARCH considers past volatilities as a reference in computing latest volatility, thus the estimated volatility follows a similar trend as the observed volatility in our data.
-- Therefore, if returns fluctuated a lot during a specific period, GARCH expects the volatility in near future is also high and view it as riskier, as opposed to other VaR method which treat all periods as equally risky.
+### 7. GARCH Conditional Volatility Modelling
+- The GARCH(1,1) model estimates time-varying conditional volatility using past squared return shocks and previously estimated conditional variance. The resulting volatility path is used to assess whether predicted market risk rose during turbulent periods. 
+- Unlike Historical VaR and Normal Parametric VaR, which update risk estimates from a rolling sample of past returns or sample moments, GARCH models conditional volatility recursively using recent squared shocks and previously estimated variance. This allows it to respond explicitly to volatility clustering over time.
 
-- GARCH-based one-day ahead VaR forecasting
+![Conditional volatility calculated using GARCH (normal distribution)](figures/12_garch_equity_heavy_conditional_volatility.png)
+
+### 8. GARCH one-day ahead VaR forecasting
 - Since volatility changes as market conditions change under different periods, the VaR estimates from GARCH also adapt to different market risks and fluctuations. It incorporates estimated mean returns and volatilities.
 
-- Backtesting comparison of all four VaR models
-- at 99% confidence level, all models but Student-T GARCH see a more noticeable deviation of exceedance rates from the expected rates.
-- Parametric and GARCH perform particularly worse at this confidence level. Student-T GARCH performs relatively bad at 95% confidence level.
+![Backtesting 99% GARCH (normal distribution) VaR for the Equity-Heavy Portfolio](figures/13_garch_99_var_backtesting.png)
 
-- Overall conclusion: 
+### 9. Backtesting Comparison of Four VaR Models
+- At 99% confidence level, all models but Student-T GARCH see a more noticeable deviation of exceedance rates from the expected rates across the observed portfolios. Parametric and Normal GARCH perform particularly worse at this confidence level.
+- At 95% however, Student-t GARCH was less closely calibrated than some other simpler alternatives.
+- Overall, increasing model complexity did not uniformly improve calibration across all portfolios and confidence levels.
+
+![Backtesting of all four models and portfolios at 95% and 99% confidence levels](figures/20_var_model_backtesting_comparison_all_portfolios_with_std.png)
+
+## Overall conclusion
 - Adding bonds and gold reduced risks during normal periods, but not quite so during extreme stress periods. Furthermore, a higher return comes with wilder fluctuations and thus larger losses.
-- Historical VaR appeared to be the model with the most stable performance across portfolios and confidence levels.
+- Across the observed portfolio-confidence combinations, historical VaR produced exceedance rates that were generally the most consistently close to the expected benchmark, while Student-t GARCH appeared particularly competitive at the 99% confidence level. These results suggest that increasing model complexity did not uniformly improve calibration across all settings.
 
-Limitations:
+## Limitations
 1. This analysis uses historical data, and thus is not able to predict how the assets and the resulting portfolios will behave in future crises as correlations, returns and risk levels can change over time.
 2. The selected ETFs are proxies of each asset classes not representative of all possible types of the asset.
 3. The portfolios are all denominated in USD, not accounting for exchange rate movements between USD and the investor's home currency.
-4. The fixed portfolio weights assume frequent rebalancing, absence of which might result in different risks and returns
-5. The above calculations exclude transaction, management and other associated costs, which will see a significant increase if portfolios are frequently rebalanced. Therefore, the report might overestimate the returns of each portfolio.
-6. VaR and Expected Shortfall are calculated based on historical returns, which rely on losses that have actually occurred. Therefore, if a future crisis is more severe, which might not be captured by the two metrics.
+4. The fixed portfolio weights assume regular rebalancing. Different rebalancing frequencies may produce different risk and return outcomes.
+5. The above calculations exclude transaction, management and other associated costs, which may become more material if portfolios are frequently rebalanced. Therefore, the report might overestimate realized investor returns.
+6. VaR and Expected Shortfall are calculated based on historical returns, which rely on losses that have actually occurred. Therefore, a future crisis that is more severe or structurally different may not be captured adequately by these historical downside-risk estimates.
 7. The selected historical stress periods do not represent every possible future crisis, thus the results of the stress testing may not accurately predict how the portfolios will perform under future crises.
 8. The backtesting results may depend on selected rolling-window length, confidence levels and performance evaluation methods, not a comprehensive judgement of the ability of each VaR model.
+9. The standard GARCH(1,1) specification assumes that positive and negative shocks of the same magnitude affect future volatility symmetrically, which may not fully reflect equity-market behaviour.
+10. Normal GARCH VaR assumes normally distributed standardised shocks, while Student-t GARCH represents only one possible heavy-tailed alternative. Model conclusions may differ under other distributional or asymmetric-volatility specifications.
 
