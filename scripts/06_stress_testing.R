@@ -46,9 +46,164 @@ risk_plot_data = data.frame(
                   risk_table$Expected_Shortfall_95_Dollars)
 )
 
+
+
 library(ggplot2)
 
 ggplot(risk_plot_data, aes(x = Portfolio, y = Dollar_Loss, fill = Risk_Measure)) + geom_bar(stat = "identity", position = "dodge") + labs(title = "One-Day 95% VaR and Expected Shortfall", x = "Portfolio", y = "Loss on a USD 10,000 Portfolio", fill = "Risk Measure") + theme_minimal()
 
 ggsave('figures/06_var_expected_shortfall.png',width = 8, height = 5)
 
+covid_spy = spy_price['2020-02-19/2020-03-23']
+covid_ief = ief_price['2020-02-19/2020-03-23']
+covid_gld = gld_price['2020-02-19/2020-03-23']
+rate_spy = spy_price['2022-01-01/2022-12-31']
+rate_ief = ief_price['2022-01-01/2022-12-31']
+rate_gld = gld_price['2022-01-01/2022-12-31']
+
+dir.create(
+  "figures",
+  showWarnings = FALSE
+)
+
+# Function to combine and normalise prices
+create_stress_price_data <- function(spy_price, ief_price, gld_price, period_name) {
+  
+  prices <- merge(
+    spy_price,
+    ief_price,
+    gld_price
+  )
+  
+  colnames(prices) <- c(
+    "SPY",
+    "IEF",
+    "GLD"
+  )
+  
+  prices <- na.omit(prices)
+  
+  first_prices <- as.numeric(
+    prices[1, ]
+  )
+  
+  normalised_core <- sweep(
+    coredata(prices),
+    MARGIN = 2,
+    STATS = first_prices,
+    FUN = "/"
+  ) * 100
+  
+  normalised_prices <- xts(
+    normalised_core,
+    order.by = index(prices)
+  )
+  
+  colnames(normalised_prices) <- colnames(prices)
+  
+  print(
+    head(normalised_prices)
+  )
+  
+  price_df <- data.frame(
+    Date = as.Date(index(normalised_prices)),
+    coredata(normalised_prices)
+  )
+  
+  price_df_long <- reshape(
+    price_df,
+    varying = c(
+      "SPY",
+      "IEF",
+      "GLD"
+    ),
+    v.names = "Normalised_Price",
+    timevar = "Asset",
+    times = c(
+      "SPY",
+      "IEF",
+      "GLD"
+    ),
+    direction = "long"
+  )
+  
+  rownames(price_df_long) <- NULL
+  
+  price_df_long$Period <- period_name
+  
+  return(price_df_long)
+}
+
+covid_asset_price_data <- create_stress_price_data(
+  spy_price = covid_spy,
+  ief_price = covid_ief,
+  gld_price = covid_gld,
+  period_name = "COVID-19 Sell-Off"
+)
+
+rate_asset_price_data <- create_stress_price_data(
+  spy_price = rate_spy,
+  ief_price = rate_ief,
+  gld_price = rate_gld,
+  period_name = "2022 Inflation / Rising-Rate Environment"
+)
+
+covid_asset_plot <- ggplot(
+  covid_asset_price_data,
+  aes(
+    x = Date,
+    y = Normalised_Price,
+    colour = Asset
+  )
+) +
+  geom_line(
+    linewidth = 0.9
+  ) +
+  labs(
+    title = "Asset Performance During COVID-19 Sell-Off",
+    subtitle = "Normalised price index, starting value = 100",
+    x = "Date",
+    y = "Normalised Price Index",
+    colour = "Asset"
+  ) +
+  theme_minimal()
+
+print(covid_asset_plot)
+
+ggsave(
+  filename = "figures/21_asset_performance_covid_stress.png",
+  plot = covid_asset_plot,
+  width = 10,
+  height = 6,
+  dpi = 200
+)
+
+rate_asset_plot <- ggplot(
+  rate_asset_price_data,
+  aes(
+    x = Date,
+    y = Normalised_Price,
+    colour = Asset
+  )
+) +
+  geom_line(
+    linewidth = 0.9
+  ) +
+  labs(
+    title = "Asset Performance During 2022 Inflation and Rising-Rate Environment",
+    subtitle = "Normalised price index, starting value = 100",
+    x = "Date",
+    y = "Normalised Price Index",
+    colour = "Asset"
+  ) +
+  theme_minimal()
+
+print(rate_asset_plot)
+
+ggsave(
+  filename = "figures/22_asset_performance_2022_stress.png",
+  plot = rate_asset_plot,
+  width = 10,
+  height = 6,
+  dpi = 200
+)

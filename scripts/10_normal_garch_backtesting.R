@@ -38,7 +38,7 @@ create_garch_var_results <- function(
     Date = forecast_dates,
     Portfolio = portfolio_name,
     Confidence_Level = confidence_label,
-    Method = "GARCH VaR",
+    Method = "Normal GARCH VaR",
     Actual_Return = actual_return_pct / 100,
     Actual_Loss = actual_loss_pct / 100,
     Predicted_VaR = predicted_var_pct / 100,
@@ -454,7 +454,7 @@ combined_backtesting_summary$Method <- factor(
   levels = c(
     "Historical VaR",
     "Parametric VaR",
-    "GARCH VaR"
+    "Normal GARCH VaR"
   )
 )
 

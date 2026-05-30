@@ -394,7 +394,7 @@ combined_std_backtesting_summary$Method <- factor(
   levels = c(
     "Historical VaR",
     "Parametric VaR",
-    "GARCH VaR",
+    "Normal GARCH VaR",
     "Student-t GARCH VaR"
   )
 )
