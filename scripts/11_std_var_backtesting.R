@@ -99,6 +99,8 @@ for(portfolio in colnames(portfolio_returns_xts)){
   )
 }
 
+garch_std_backtest_results$Date = as.Date(garch_std_backtest_results$Date)
+
 write.csv(
   garch_std_backtest_results,
   "data/garch_std_var_backtesting_predictions.csv",
@@ -153,7 +155,7 @@ if (file.exists(existing_backtest_file)) {
   )
   
   print(combined_std_backtesting_summary)
-  
+    
   write.csv(
     combined_std_backtest_results,
     "data/combined_var_std_backtesting_predictions.csv",
@@ -197,7 +199,7 @@ garch_var_plot <- ggplot(
   geom_line(
     aes(
       y = Predicted_VaR * 100,
-      colour = "Predicted GARCH VaR"
+      colour = "Predicted Student-t GARCH VaR"
     )
   ) +
   geom_point(
@@ -211,7 +213,7 @@ garch_var_plot <- ggplot(
     size = 1.5
   ) +
   labs(
-    title = "Backtesting 99% Student's T Distributed GARCH VaR for the Equity-Heavy Portfolio",
+    title = "Backtesting 99% Student-t Distributed GARCH VaR for the Equity-Heavy Portfolio",
     subtitle = "Points indicate days when actual loss exceeded predicted VaR",
     x = "Date",
     y = "Daily Loss / VaR (%)",
@@ -241,7 +243,7 @@ garch_99_std_plot_data <- subset(
 
 if (nrow(garch_99_std_plot_data) == 0) {
   stop(
-    "No 99% GARCH VaR results were found. Check your Confidence_Level labels."
+    "No 99% Student-t GARCH VaR results were found. Check your Confidence_Level labels."
   )
 }
 
@@ -260,7 +262,7 @@ garch_99_std_all_portfolios_plot <- ggplot(
   geom_line(
     aes(
       y = Predicted_VaR * 100,
-      colour = "Predicted 99% GARCH VaR"
+      colour = "Predicted 99% Student-t GARCH VaR"
     ),
     linewidth = 0.55
   ) +
@@ -280,7 +282,7 @@ garch_99_std_all_portfolios_plot <- ggplot(
     ncol = 1
   ) +
   labs(
-    title = "Backtesting 99% Student's T Distributed GARCH VaR Across Portfolios",
+    title = "Backtesting 99% Student-t Distributed GARCH VaR Across Portfolios",
     subtitle = "Red points indicate days when actual loss exceeded predicted VaR",
     x = "Date",
     y = "Daily Loss / Predicted VaR (%)",
@@ -305,7 +307,7 @@ garch_all_combinations_plot_data_std <- garch_std_backtest_results
 
 if (nrow(garch_all_combinations_plot_data_std) == 0) {
   stop(
-    "The GARCH backtesting results table is empty."
+    "The Student-t GARCH backtesting results table is empty."
   )
 }
 
@@ -324,7 +326,7 @@ garch_all_combinations_plot_std <- ggplot(
   geom_line(
     aes(
       y = Predicted_VaR * 100,
-      colour = "Predicted GARCH VaR"
+      colour = "Predicted Student-t GARCH VaR"
     ),
     linewidth = 0.45
   ) +
@@ -343,7 +345,7 @@ garch_all_combinations_plot_std <- ggplot(
     Confidence_Level ~ Portfolio
   ) +
   labs(
-    title = "Detailed Student's T Distributed GARCH VaR Backtesting Across All Portfolios",
+    title = "Detailed Student-t Distributed GARCH VaR Backtesting Across All Portfolios",
     subtitle = "Red points indicate exceedances of the predicted VaR threshold",
     x = "Date",
     y = "Daily Loss / Predicted VaR (%)",

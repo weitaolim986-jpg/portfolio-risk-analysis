@@ -1,7 +1,7 @@
 "Portfolio","Confidence_Level","Method","Number_of_Exceedances","Number_of_Test_Days","Exceedance_Rate_Percent","Expected_Exceedance_Rate_Percent"
-"Balanced","95%","GARCH VaR",126,2264,5.57,5
-"Balanced","99%","GARCH VaR",46,2264,2.03,1
-"Defensive","95%","GARCH VaR",117,2264,5.17,5
-"Defensive","99%","GARCH VaR",47,2264,2.08,1
-"Equity_heavy","95%","GARCH VaR",134,2264,5.92,5
-"Equity_heavy","99%","GARCH VaR",55,2264,2.43,1
+"Balanced","95%","Normal GARCH VaR",126,2264,5.57,5
+"Balanced","99%","Normal GARCH VaR",46,2264,2.03,1
+"Defensive","95%","Normal GARCH VaR",117,2264,5.17,5
+"Defensive","99%","Normal GARCH VaR",47,2264,2.08,1
+"Equity_heavy","95%","Normal GARCH VaR",134,2264,5.92,5
+"Equity_heavy","99%","Normal GARCH VaR",55,2264,2.43,1

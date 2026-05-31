@@ -83,14 +83,15 @@ garch_backtest_results <- rbind(
 )
 }
 
+garch_backtest_results$Method[
+  garch_backtest_results$Method == "GARCH VaR"
+  ] = "Normal GARCH VaR"
+
+garch_backtest_results$Date <- as.Date(
+  garch_backtest_results$Date
+)
 
 head(garch_backtest_results)
-
-write.csv(
-  garch_backtest_results,
-  "data/garch_var_backtesting_predictions.csv",
-  row.names = FALSE
-)
 
 summarise_backtest_results <- function(results) {
   exceedance_counts <- aggregate(
@@ -257,7 +258,7 @@ garch_var_plot <- ggplot(
   geom_line(
     aes(
       y = Predicted_VaR * 100,
-      colour = "Predicted GARCH VaR"
+      colour = "Predicted Normal GARCH VaR"
     )
   ) +
   geom_point(
@@ -271,7 +272,7 @@ garch_var_plot <- ggplot(
     size = 1.5
   ) +
   labs(
-    title = "Backtesting 99% GARCH VaR for the Equity-Heavy Portfolio",
+    title = "Backtesting 99% Normal GARCH VaR for the Equity-Heavy Portfolio",
     subtitle = "Points indicate days when actual loss exceeded predicted VaR",
     x = "Date",
     y = "Daily Loss / VaR (%)",
@@ -301,7 +302,7 @@ garch_99_plot_data <- subset(
 
 if (nrow(garch_99_plot_data) == 0) {
   stop(
-    "No 99% GARCH VaR results were found. Check your Confidence_Level labels."
+    "No 99% Normal GARCH VaR results were found. Check your Confidence_Level labels."
   )
 }
 
@@ -320,7 +321,7 @@ garch_99_all_portfolios_plot <- ggplot(
   geom_line(
     aes(
       y = Predicted_VaR * 100,
-      colour = "Predicted 99% GARCH VaR"
+      colour = "Predicted 99% Normal GARCH VaR"
     ),
     linewidth = 0.55
   ) +
@@ -340,7 +341,7 @@ garch_99_all_portfolios_plot <- ggplot(
     ncol = 1
   ) +
   labs(
-    title = "Backtesting 99% GARCH VaR Across Portfolios",
+    title = "Backtesting 99% Normal GARCH VaR Across Portfolios",
     subtitle = "Red points indicate days when actual loss exceeded predicted VaR",
     x = "Date",
     y = "Daily Loss / Predicted VaR (%)",
@@ -384,7 +385,7 @@ garch_all_combinations_plot <- ggplot(
   geom_line(
     aes(
       y = Predicted_VaR * 100,
-      colour = "Predicted GARCH VaR"
+      colour = "Predicted Normal GARCH VaR"
     ),
     linewidth = 0.45
   ) +
@@ -403,7 +404,7 @@ garch_all_combinations_plot <- ggplot(
     Confidence_Level ~ Portfolio
   ) +
   labs(
-    title = "Detailed GARCH VaR Backtesting Across All Portfolios",
+    title = "Detailed Normal GARCH VaR Backtesting Across All Portfolios",
     subtitle = "Red points indicate exceedances of the predicted VaR threshold",
     x = "Date",
     y = "Daily Loss / Predicted VaR (%)",
