@@ -60,16 +60,16 @@ To assess how risk-model assumptions affect downside-risk estimation, the projec
 ### 1. Individual Asset Behaviour and Diversification Potential
 - SPY has the highest daily return and annualized return, but at the expense of the highest daily and thus annualized volatility. 
 
-![Growth of $100 by asset](figures/growth_of_100_by_asset.png)
+![Growth of $100 by asset](figures/04_growth_of_100_by_asset.png)
 - Gold ranked between SPY and IEF for all four metrics while IEF is the last, showing lower returns but higher stability.
 - Generally, there isn't a strong correlation (<= 0.35) between any two of the three assets, making them a compatible choice for portfolio diversification because the assets did not move together strongly over the observed period.
 
-![Correlation among the three assets](figures/04_correlation_heatmap.png)
+![Correlation among the three assets](figures/05_correlation_heatmap.png)
 
 ### 2. Portfolio Risk-Return Comparison
 - the equity-heavy portfolio has the highest annualized return compared to other portfolios. This is possibly because equities, which bring higher returns according to the analysis above, occupy 80% of this portfolio.
 
-![Growth of $10,000 Across Portfolios](figures/05_growth_of_10000_by_portfolio.png)
+![Growth of $10,000 Across Portfolios](figures/06_growth_of_10000_by_portfolio.png)
 
 - The equity-heavy portfolio, while being the most lucrative, has the highest volatility, possibly caused by the volatile nature of equities. 
 - As the proportion of equities decreases, all three metrics, namely annualized compounded return, annualized volatility, and maximum drawdown, demonstrate a downward trend.
@@ -80,7 +80,7 @@ To assess how risk-model assumptions affect downside-risk estimation, the projec
 - The Balanced and Defensive portfolios produced lower tail-risk estimates, suggesting that allocating more weight to bonds and gold reduced observed downside risk.
 - Expected Shortfall complements VaR by showing the average severity of losses beyond the VaR threshold rather than only identifying the threshold itself.
 
-![VaR and Expected Shortfall for the three portfolios](figures/06_var_expected_shortfall.png)
+![VaR and Expected Shortfall for the three portfolios](figures/07_var_expected_shortfall.png)
 
 ### 4. Historical Stress Testing
 - During COVID-19 sell off in 2020 and interest rate hike in 2022, the equity-heavy portfolio suffered the largest losses and deepest drawdowns compared to the other two.
