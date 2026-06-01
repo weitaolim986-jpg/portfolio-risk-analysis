@@ -1,4 +1,6 @@
-install.packages(c("quantmod","xts","ggplot2","PerformanceAnalytics"))
+#Required packages (uncomment the following line):
+#install.packages(c("quantmod","xts","ggplot2","PerformanceAnalytics"))
+
 library(quantmod)
 library(xts)
 library(ggplot2)
