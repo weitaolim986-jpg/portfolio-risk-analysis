@@ -167,4 +167,4 @@ This project is conducted for educational and portfolio-development purposes onl
 
 A detailed written report is available here:
 
-[View Full Report](report/Portfolio_Risk_Analysis_Report_(Finalized).pdf)
+[View Full Report](report/Portfolio_Risk_Analysis_Report.pdf)
